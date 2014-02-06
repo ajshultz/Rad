@@ -4,13 +4,16 @@ import re, sys, os, itertools, sets, getopt        # Load standard modules I oft
 import MySQLdb   # Gives the ability to interact with the mysql database.
 import pickle
 import vcf
+import Pairwise_linkage_disequilibrium
 
 """
-This script will obtain a list of locus catalog tag_id numbers from an inputted vcf file.
+The first part of this script will obtain a list of locus catalog tag_id numbers from an inputted vcf file. It will match up loci to a stacks database, and pull information on which read and a paired locus (requires catalog_read_pair.py and mysql_database_pair_update.py having been run previously).  It will then output a number of stats, including how many loci are from read 1 or read 2, how many are matched to the same fragment, and a csv file of the matched loci where both ends are present in the library.
 """
 
 #User input variables
 vcffile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14/batch_1.vcf"
+plinkped = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.plink.ped"
+plinkmap = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.plink.map"
 mysqlhost = "localhost"
 mysqluser = "root"
 mysqlpasswd = "hofi"
@@ -120,3 +123,79 @@ MyConnection.close()
 
 
 ##########################################################################################
+'''
+This part of the script will calculate LD between pairs of SNPS.  
+'''
+
+#The PLINK ped file contains all genotype information for individuals in rows.  Note that the first 6 columns of each row are special.  Relevant here is the populations ID (first column) and individual ID (second column).  The PLINK map file contains locus information.  Most important is the second column, which has the locus catalog_id "_" position on the read.
+ped = open(plinkped,"r")
+map = open(plinkmap,"r")
+
+#Get locus position information
+locusid = []
+catid = []
+tagpos = []
+
+for row in map:
+	row = row.split("\t")
+	locusid.append(row[1])
+	loc = row[1]
+	sep = loc.split("_")
+	catid.append(sep[0])
+	tagpos.append(sep[1])
+	
+#Get individual genotypes (make a dictionary), and make a dictionary of populations pop[list of individuals]
+indgendict = {}
+indpop = {}
+
+for row in ped:
+	row = row.strip()
+	row = row.split("\t")
+	if row[0] not in indpop:
+		indpop[row[0]]=[row[1]]
+	else:
+		indpop[row[0]].append(row[1])
+	indgendict[row[1]]=row[6:]
+	numlets = len(row[6:])
+
+
+#Make two lists, var1 with genotype 1 for a locus and var2 with genotype2 for a  locus.  The lists are in the same order as the catalog_ids and tag_postions from catid and tagpos.  The individual calls are in the order of indorder, which is extracted as the keys of the dictionary.  
+
+index = range(0,numlets-1,2)
+
+var1 = range(0,len(index))
+var2 = range(0,len(index))
+
+indorder = indgendict.keys()
+
+for ind in indorder:
+	for i in range(0,len(index)):
+		if type(var1[i]) == list:
+			var1[i].append(indgendict[ind][index[i]])
+		else:
+			var1[i] = [indgendict[ind][index[i]]]
+		if type(var2[i]) == list:
+			var2[i].append(indgendict[ind][index[i]+1])
+		else:
+			var2[i] = [indgendict[ind][index[i]+1]]		
+
+genotypes = range(0,len(var1))
+
+for i in range(0,len(var1)):
+	genotypes[i] = tuple(zip(var1[i],var2[i]))
+	
+print genotypes[-1]
+
+test = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(SNP_1=genotypes[0],SNP_2=genotypes[1])
+print test
+
+print matchpairs
+print catid
+#poslist = [int(i) for i,v in enumerate(catid) if v=="8905"]
+
+
+
+ped.close()
+map.close()
+
+
