@@ -20,6 +20,7 @@ mysqlpasswd = "hofi"
 stacksdb = "HFdenovo_PairTestingReducedm3N3_radtags"
 numsamples=78
 outputdir = "TestResults"
+popmap = "/Users/allisonshultz/Stacks/PopMaps_m/PopMapBasicPhylo_noMD.txt"
 
 
 
@@ -124,7 +125,7 @@ MyConnection.close()
 
 ##########################################################################################
 '''
-This part of the script will calculate LD between pairs of SNPS.  
+This part of the script will calculate LD between pairs of SNPS.  LD will be calculated between all pairs of loci for each of the populations given by the popmap.
 '''
 
 #The PLINK ped file contains all genotype information for individuals in rows.  Note that the first 6 columns of each row are special.  Relevant here is the populations ID (first column) and individual ID (second column).  The PLINK map file contains locus information.  Most important is the second column, which has the locus catalog_id "_" position on the read.
@@ -184,18 +185,56 @@ genotypes = range(0,len(var1))
 for i in range(0,len(var1)):
 	genotypes[i] = tuple(zip(var1[i],var2[i]))
 	
-print genotypes[-1]
+#Now, open the popmap and assign individuals into each of the populations listed in the popdict dictionary
 
-test = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(SNP_1=genotypes[0],SNP_2=genotypes[1])
-print test
+pops = open(popmap,"r")
 
-print matchpairs
-print catid
-#poslist = [int(i) for i,v in enumerate(catid) if v=="8905"]
+
+popdict = {}
+for line in pops:
+	line = line.strip()
+	line = line.split("\t")
+	pop = line[1]
+	ind = line[0]
+	if pop not in popdict:
+		popdict[pop] = [ind]
+	else:
+		popdict[pop].append(ind)
+
+#Extract the genotypes only for the individuals in each population, add them to the popgenotypes dictionary.
+
+popgenotypes = {}
+
+poppos = {}
+
+for pop in popdict:
+	popposlist = []
+	for ind in popdict[pop]:
+		indpos = [int(i) for i,v in enumerate(indorder) if v==ind]
+		indpos = indpos[0]
+		popposlist.append(indpos)
+	poppos[pop]=popposlist
+
+for pop in poppos:
+	genset = []
+	for locus in genotypes:
+		newset = []
+		for indpos in poppos[pop]:
+			newset.append(locus[indpos])
+		genset.append(tuple(newset))
+	popgenotypes[pop]=genset
+	
+
+
+
+
+#test = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(SNP_1=genotypes[0],SNP_2=genotypes[1])
+
 
 
 
 ped.close()
 map.close()
+pops.close()
 
 
