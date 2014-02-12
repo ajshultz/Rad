@@ -223,12 +223,29 @@ for pop in poppos:
 			newset.append(locus[indpos])
 		genset.append(tuple(newset))
 	popgenotypes[pop]=genset
+
+
+#Calculate LD for all pairs of SNPs for each population.  The resulting matrix is output into a separate file for each population (named by the population number) as a csv file. Note that this took about an hour for each population, so I will keep it commented out unless necessary.
+# 
+# popnames=popgenotypes.keys()
+# 
+# for popnum in range(0,len(popnames)):
+# 	resfilename = (outputdir,"/pop_",popnames[popnum],".csv")
+# 	resfilename = "".join(resfilename)
+# 	resfile = open(resfilename,"w")
+# 	for i in range(0,len(popgenotypes[popnames[popnum]])):
+# 		liner2=[]
+# 		for j in range(0,len(popgenotypes[popnames[popnum]])):
+# 			try:
+# 				r2 = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(popgenotypes[popnames[popnum]][i],popgenotypes[popnames[popnum]][j])
+# 				r2 = round(r2['R_sq'],5)
+# 			except:
+# 				r2 = 9
+# 			liner2.append(r2)
+# 		liner2 = ','.join(str(k) for k in liner2)
+# 		resfile.write("%s\n"%liner2)
+# 	resfile.close()
 	
-
-
-
-
-#test = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(SNP_1=genotypes[0],SNP_2=genotypes[1])
 
 
 
