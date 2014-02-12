@@ -225,7 +225,7 @@ for pop in poppos:
 	popgenotypes[pop]=genset
 
 
-#Calculate LD for all pairs of SNPs for each population.  The resulting matrix is output into a separate file for each population (named by the population number) as a csv file. Note that this took about an hour for each population, so I will keep it commented out unless necessary. Note that loci are in same order as in PLINK files, so catalog and tag_id numbers can be obtained from Map file. 
+#Calculate LD for all pairs of SNPs for each population.  The resulting matrix is output into a separate file for each population (named by the population number) as a csv file. Note that this took about an hour for each population, so I will keep it commented out unless necessary. Note that loci are in same order as in PLINK files, so catalog and tag_id numbers can be obtained from Map file. Note that there are some cases where r2 cannot be calculated due to a division by 0.  In these cases, a 9 is given for the r2 value as a place holder. 
 # 
 # popnames=popgenotypes.keys()
 # 
