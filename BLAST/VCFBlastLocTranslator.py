@@ -10,13 +10,20 @@ from Bio.Blast import NCBIXML
 
 """
 This script will take in a vcf file output from stacks, a csv hit table output from blasts for the corresponding tags, and a mysql database.  It will access the snp position for the snp ids present in the vcf file from the plink map file, and will translate them to the chromosomal positions from the blast output.  Any tags that blasted to more than one location on the zebra finch genome or did not have any hits will be dropped from the vcf file. 
+
+If singleSnp = T, only one snp per locus will be written.
+
+A file with all tags numbers in the VCF file will also be written.
 """
 
 #User input variables
 vcffile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.vcf"
 mapfile= "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.plink.map"
-output = "../TestResults/PhyloPop_r.5p14_translated.vcf"
+output = "../TestResults/PhyloPop_r.5p14_translated_singlesnp.vcf"
 blastfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/_PhyloPopr.5p14BLAST/HA4EU7HH014-Alignment.xml"
+singleSnp = 1
+tagfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/tag_ids.txt"
+
 #chrtransfile = "/Users/allisonshultz/Dropbox/PythonScripts/RAD/BLAST/ChromsomeNameConvBlast.csv"
 
 #First, open the Blast output file, and make a dictionary of how many hits occurred for each locus, and a dictionary with the snpid (from the consensus sequence position) as the key and the chromosome and base pair positions (start and stop) as the value.
@@ -93,6 +100,8 @@ for line in map:
 	info = line.strip().split("\t")
 	maploci[info[3]] = info[1]
 
+uniquetag = []
+
 for line in vcfin:
 	if line[0] == "#":
 		vcfout.write(line)
@@ -101,17 +110,32 @@ for line in vcfin:
 		snpid = vcfline[1]
 		tag_pos = maploci[str(int(snpid) - 1)]#This is where the correction is.
 		tag,pos = tag_pos.split("_")
-		if NumBlastAlignments(blast_dict,tag) == 1:
-			chr,newpos = NewSnpPos(blast_dict,tag,pos)
-			if newpos != 0:#In case they mapped beyond the mapped blast read
-				if chr != "scaffold":#So that we only get the results that actually mapped to the chromosomes.
-					vcfline[0] = str(chr)
-					vcfline[1] = str(newpos)
-					newvcfline = "\t".join(vcfline)
-					vcfout.write("%s\n"%(newvcfline))
+		if singleSnp == 1:
+			if tag not in uniquetag:
+				uniquetag.append(tag)
+				if NumBlastAlignments(blast_dict,tag) == 1:
+					chr,newpos = NewSnpPos(blast_dict,tag,pos)
+					if newpos != 0:#In case they mapped beyond the mapped blast read
+						if chr != "scaffold":#So that we only get the results that actually mapped to the chromosomes.
+							vcfline[0] = str(chr)
+							vcfline[1] = str(newpos)
+							newvcfline = "\t".join(vcfline)
+							vcfout.write("%s\n"%(newvcfline))
+		else:
+			if NumBlastAlignments(blast_dict,tag) == 1:
+				chr,newpos = NewSnpPos(blast_dict,tag,pos)
+				if newpos != 0:#In case they mapped beyond the mapped blast read
+					if chr != "scaffold":#So that we only get the results that actually mapped to the chromosomes.
+						vcfline[0] = str(chr)
+						vcfline[1] = str(newpos)
+						newvcfline = "\t".join(vcfline)
+						vcfout.write("%s\n"%(newvcfline))
 
+tags = open(tagfile,"w")
+for i in range(0,len(uniquetag)):
+	tags.write("%s\n"%uniquetag[i])
 
-	
+tags.close()	
 vcfin.close()
 vcfout.close()	
 map.close()
