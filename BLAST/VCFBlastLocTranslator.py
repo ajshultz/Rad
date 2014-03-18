@@ -19,9 +19,9 @@ A file with all tags numbers in the VCF file will also be written.
 #User input variables
 vcffile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.vcf"
 mapfile= "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.plink.map"
-output = "../TestResults/PhyloPop_r.5p14_translated_singlesnp.vcf"
+output = "../TestResults/PhyloPop_r.5p14_translated.vcf"
 blastfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/_PhyloPopr.5p14BLAST/HA4EU7HH014-Alignment.xml"
-singleSnp = 1
+singleSnp = 0
 tagfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/tag_ids.txt"
 
 #chrtransfile = "/Users/allisonshultz/Dropbox/PythonScripts/RAD/BLAST/ChromsomeNameConvBlast.csv"
@@ -128,6 +128,8 @@ for line in vcfin:
 					if chr != "scaffold":#So that we only get the results that actually mapped to the chromosomes.
 						vcfline[0] = str(chr)
 						vcfline[1] = str(newpos)
+						vcfline[2] = "%s_%s"%(tag,pos)
+						print vcfline[2]
 						newvcfline = "\t".join(vcfline)
 						vcfout.write("%s\n"%(newvcfline))
 
