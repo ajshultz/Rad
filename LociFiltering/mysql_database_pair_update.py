@@ -13,14 +13,13 @@ def main(argv):
 	try:
 		opts,args = getopt.getopt(argv,'hl:u:p:c:n:m:s:t:',)
 	except getopt.GetOptError:
-		print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -c <path to catalog dictionaries (output from catalog_read_pair.py)> -n <number of samples> -t <table to update in database (default = catalog_index)>"
+		print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -c <path to catalog dictionaries (output from catalog_read_pair.py)>  -t <table to update in database (default = catalog_index)>"
 		sys.exit(2)
 			
 	mysqlhost = 'localhost'
 	mysqluser = 'root'
 	mysqlpasswd = ''
 	stacksdb = ''
-	numsamples= int()
 	tabletoupdate = "catalog_index"
 	catalogdir = '.'
 
@@ -36,8 +35,6 @@ def main(argv):
 			mysqlpasswd = arg
 		elif opt == "-c":
 			catalogdir = arg
-		elif opt == "-n":
-			numsamples = int(arg)
 		elif opt == "-t":
 			tabletoupdate = arg
 		elif opt == "-s":
