@@ -32,8 +32,8 @@ def main(argv):
 
 	blacklist_file = "%s/Blacklist.txt"%outputdir
 	stats_file = "%s/ProblemStats.txt"%outputdir
-	within_ind_file = '%s/MultipleLociWithinInds.txt'%inputdir
-	across_ind_file ='%s/MultipleLociAcrossInds.txt'%inputdir	
+	within_ind_file = '%s/MultipleLociWithinInds.csv'%inputdir
+	across_ind_file ='%s/MultipleLociAcrossInds.csv'%inputdir	
 	
 
 	within_ind = open(within_ind_file,"r")
