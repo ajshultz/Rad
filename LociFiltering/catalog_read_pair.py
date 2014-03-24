@@ -62,8 +62,17 @@ def main(argv):
 	samp_pairinginfo = open("%s/AllSamplePairingInfo.csv"%outputdir,"w")
 	samp_pairinginfo.write("Sample,NumberLoci,SinglyPaired,MultiplyPaired\n")
 
-	mult_indivpairfile = open("%s/LociWithMultiplePairsWithinIndividuals.csv"%outputdir,"w")
+	mult_indivpairfile = open("%s/MultipleLociWithinInds.csv"%outputdir,"w")
 
+	#Retrieve the number of samples from the mysql database
+	MyConnection = MySQLdb.connect( host = mysqlhost, user = mysqluser, \
+									passwd = mysqlpasswd, db = stacksdb)
+	MyCursor = MyConnection.cursor()
+
+	SQL = """SELECT file from samples;"""
+	SQLLen = MyCursor.execute(SQL)  # returns the number of records retrieved
+	
+	numsamples = SQLLen
 
 	for sample in range(1,numsamples+1):
 	#for sample in (20,21,47,48,53):
@@ -149,7 +158,7 @@ def main(argv):
 	singlecatalogpairs = {}
 	catalogmultiplepairs = {}
 
-	problemloci = open("%s/LociWithMultiplePairsAcrossIndividuals.csv"%outputdir,"w")
+	problemloci = open("%s/MultipleLociAcrossInds.csv"%outputdir,"w")
 	problemloci.write("Catalogtag_id,,AllPairs\n")
 
 	for key in catalogpairs:
