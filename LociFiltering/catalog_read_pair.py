@@ -8,16 +8,15 @@ import pickle
 
 def main(argv):
 	try:
-		opts,args = getopt.getopt(argv,'hl:u:p:o:n:m:s:c:',)
+		opts,args = getopt.getopt(argv,'hl:u:p:o:m:s:',)
 	except getopt.GetOptError:
-		print "catalog_read_pair.py -l <mysql host> -u <mysql user> -p <mysql password> -o <path to output directory> -n <number of samples> -m <minimum cut off depth for a stack to be included in catalogs>"
+		print "catalog_read_pair.py -l <mysql host> -u <mysql user> -p <mysql password> -o <path to output directory (default .)> -s <Stacks database name>  -m <minimum cut off depth for a stack to be included in catalogs>"
 		sys.exit(2)
 			
 	mysqlhost = 'localhost'
 	mysqluser = 'root'
 	mysqlpasswd = ''
 	stacksdb = ''
-	numsamples= int()
 	mincutoff = 1
 	outputdir = '.'
 
@@ -25,7 +24,7 @@ def main(argv):
 		if opt == "-l":
 			mysqlhost = arg
 		elif opt == "-h":
-			print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -o <path to output directory (default .)> -n <number of samples> -m <minimum cut off depth for a stack to be included in catalogs (default 1)>"
+			print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -o <path to output directory (default .)> -m <minimum cut off depth for a stack to be included in catalogs (default 1)>"
 			sys.exit(2)
 		elif opt == "-u":
 			mysqluser = arg
@@ -33,10 +32,8 @@ def main(argv):
 			mysqlpasswd = arg
 		elif opt == "-o":
 			outputdir = arg
-		elif opt == "-n":
-			numsamples = int(arg)
-		elif opt == "-c":
-			mincutoff = arg
+		elif opt == "-m":
+			mincutoff = int(arg)
 		elif opt == "-s":
 			stacksdb = arg
 
@@ -50,6 +47,17 @@ def main(argv):
 
 	samp_snps.write("Sample,Read1SNPS,Read2SNPS\n")
 	overlap12.write("Sample,ProblemLoci\n")
+	
+	#Retrieve the number of samples from the mysql database
+	MyConnection = MySQLdb.connect( host = mysqlhost, user = mysqluser, \
+									passwd = mysqlpasswd, db = stacksdb)
+	MyCursor = MyConnection.cursor()
+
+	SQL = """SELECT file from samples;"""
+	SQLLen = MyCursor.execute(SQL)  # returns the number of records retrieved
+	
+	numsamples = SQLLen
+	
 
 	samres = list(range(numsamples+1))
 	samrespairs = list(range(numsamples+1))
@@ -64,15 +72,7 @@ def main(argv):
 
 	mult_indivpairfile = open("%s/MultipleLociWithinInds.csv"%outputdir,"w")
 
-	#Retrieve the number of samples from the mysql database
-	MyConnection = MySQLdb.connect( host = mysqlhost, user = mysqluser, \
-									passwd = mysqlpasswd, db = stacksdb)
-	MyCursor = MyConnection.cursor()
 
-	SQL = """SELECT file from samples;"""
-	SQLLen = MyCursor.execute(SQL)  # returns the number of records retrieved
-	
-	numsamples = SQLLen
 
 	for sample in range(1,numsamples+1):
 	#for sample in (20,21,47,48,53):
@@ -119,7 +119,7 @@ def main(argv):
 				catalogpairs[locus]=[samrespairs[sample][0][locus]]
 			else:
 				catalogpairs[locus].append(samrespairs[sample][0][locus])
-				
+		print catalog		
 		print "Sample %d is done!"%sample
 
 	pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))
