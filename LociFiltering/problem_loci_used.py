@@ -53,7 +53,7 @@ def main(argv):
 		acrosslist.append(newline[0])
 	
 	bothlist = set(withinlist) | set(acrosslist)
-	print len(bothlist)
+	
 
 	poploci = []
 
@@ -69,9 +69,11 @@ def main(argv):
 
 	bad_used = set(bothlist) & set(poploci)
 
+	stats.write("Total loci in file\t%d\n"%(len(poploci)))
 	stats.write("Bad loci within ind\t%d\n"%(len(set(poploci) & set(withinlist))))
 	stats.write("Bad loci across ind\t%d\n"%(len(set(poploci) & set(acrosslist))))
 	stats.write("Bad loci in either\t%d\n"%(len(bad_used)))
+	stats.write("Bad loci in both\t%d\n"%(len((set(poploci) & set(acrosslist))&(set(poploci) & set(withinlist)))))
 	stats.write("Loci with single matches\t%d"%(len(poploci) - len(bad_used)))
 
 	blacklist = open(blacklist_file,"w")
