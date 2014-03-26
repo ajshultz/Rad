@@ -10,7 +10,7 @@ Note that the input directory needs to contain the "MultipleLociWithinInds.txt" 
 
 def main(argv):
 	try:
-		opts,args = getopt.getopt(argv,'hv:w:a:b:',)
+		opts,args = getopt.getopt(argv,'hv:i:o:',)
 	except getopt.GetOptError:
 		print "problem_loci_used.py -v <Path to vcf file> -o <path to output directory (default .)> -i <path to input directory with problem files created in catalog_read_pair.py>"
 		sys.exit(2)
