@@ -120,7 +120,7 @@ def main(argv):
 	popgenotypes = {}
 
 	poppos = {}
-
+	
 	for pop in popdict:
 		popposlist = []
 		for ind in popdict[pop]:
@@ -139,9 +139,10 @@ def main(argv):
 		popgenotypes[pop]=genset
 
 
-	#Calculate LD for all pairs of SNPs for each population.  The resulting matrix is output into a separate file for each population (named by the population number) as a csv file. Note that this took about an hour for each population, so I will keep it commented out unless necessary. Note that loci are in same order as in PLINK files, so catalog and tag_id numbers can be obtained from Map file. Note that there are some cases where r2 cannot be calculated due to a division by 0.  In these cases, a 9 is given for the r2 value as a place holder. 
-
+	#Calculate LD for all pairs of SNPs for each population.  The resulting matrix is output into a separate file for each population (named by the population number) as a csv file. Note that this took about an hour for each population, so I will keep it commented out unless necessary. Note that loci are in same order as in PLINK files, so catalog and tag_id numbers can be obtained from Map file. Note that there are some cases where r2 cannot be calculated due to a division by 0.  In these cases, a 9 is given for the r2 value as a place holder.    
 	popnames=popgenotypes.keys()
+
+
 
 	for popnum in range(0,len(popnames)):
 		resfilename = (outputdir,"/pop_",popnames[popnum],".csv")
@@ -151,7 +152,9 @@ def main(argv):
 			liner2=[]
 			for j in range(0,len(popgenotypes[popnames[popnum]])):
 				try:
-					r2 = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(popgenotypes[popnames[popnum]][i],popgenotypes[popnames[popnum]][j])
+					A1 = popgenotypes[popnames[popnum]][i]
+					A2 = popgenotypes[popnames[popnum]][j]
+					r2 = Pairwise_linkage_disequilibrium.Pairwise_linkage_disequilibrium(A2,A1)
 					r2 = round(r2['R_sq'],5)
 				except:
 					r2 = 9
