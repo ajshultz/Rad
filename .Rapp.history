@@ -1,0 +1,358 @@
+pop1[pairs[5,1],pairs[6,2]]
+pop1[pairs[6,1],pairs[6,2]]
+pairs[1,1] in locus
+pairs[1,1]
+head(locus)
+grep(pairs[1,1] in locus)
+grep(pairs[1,1],locus)
+grep(pairs[1,2],locus)
+pop1[grep(pairs[1,1],locus),grep(pairs[1,2],locus)]
+pop1[grep(pairs[1,2],locus),grep(pairs[1,2],locus)]
+grep(pairs[1,2],locus)
+pop1[grep(pairs[1,1],locus),grep(pairs[1,2],locus)]
+mean(pop1[grep(pairs[1,1],locus),grep(pairs[1,2],locus)])
+mean(unlist(pop1[grep(pairs[1,1],locus),grep(pairs[1,2],locus)]))
+mean(unlist(pop1[grep(pairs[2,1],locus),grep(pairs[2,2],locus)]))
+pop1pairsr2 <- vector()
+nrow(pairs)
+for (i in 1:length(pairs)){#
+	pop1pairsr2 <- mean(unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)]))#
+}
+pop1pairsr2
+for (i in 1:length(pairs)){#
+	pop1pairsr2[i] <- mean(unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)]))#
+}
+pop1pairsr2
+pairs
+1:length(pairs)
+for (i in 1:nrow(pairs)){#
+	pop1pairsr2[i] <- mean(unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)]))#
+}
+pop1pairsr2
+i <- 1
+r2vec <- unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)]))
+r2vec <- unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])
+r2vec
+i <- 200
+r2vec <- unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])
+r2vec
+r2vec2 <- sapply(r2vec,FUN=no0or9(x))
+r2vec2 <- sapply(r2vec,FUN=no0or9
+)
+r2vec2
+test <- c(.009,.04,9,.02,1,.05)
+test
+sapply(test,no0or9)
+test2 <- sapply(test,no0or9)
+test2
+mean(test2)
+mean(test2[!is.na(test2)])
+for (i in 1:nrow(pairs)){#
+	r2vec <- unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop1pairsr2[i] <- mean(r2vec2[!is.na(r2vec2)]#
+}
+for (i in 1:nrow(pairs)){#
+	r2vec <- unlist(pop1[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop1pairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}
+pop1pairsr2
+pop2pairsr2 <- vector()#
+#
+for (i in 1:nrow(pairs)){#
+	r2vec <- unlist(pop2[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop2pairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}#
+#
+pop3pairsr2 <- vector()#
+#
+for (i in 1:nrow(pairs)){#
+	r2vec <- unlist(pop3[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop3pairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}
+pop2pairsr2
+pop3pairsr2
+pop7pairsr2 <- vector()#
+#
+for (i in 1:nrow(pairs)){#
+	r2vec <- unlist(pop7[grep(pairs[i,1],locus),grep(pairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop7pairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}
+pop7pairsr2
+allpoppairsr2 <- data.frame(pop1pairsr2,pop2pairsr2,pop3pairsr2)
+allpoppairsr2
+boxplot(allpoppairsr2)
+unique
+rand214 <- runif(214,min=1,max=length(uniqueloci))
+rand214
+rand214 <- sample(1:length(uniqueloci),214)
+rand214
+rand214 <- sample(1:length(uniqueloci),428)
+fakepair1 <- uniqueloci[rand214[1:214]]
+fakepair1
+fakepair2 <- uniqueloci[rand214[215:428]]
+fakepair2
+fakepairs <- data.frame(fakepair1,fakepair2)
+pop2fakepairsr2 <- vector()#
+#
+for (i in 1:nrow(fakepairs)){#
+	r2vec <- unlist(pop2[grep(fakepairs[i,1],locus),grep(fakepairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop2fakepairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}#
+#
+pop3fakepairsr2 <- vector()#
+#
+for (i in 1:nrow(fakepairs)){#
+	r2vec <- unlist(pop3[grep(fakepairs[i,1],locus),grep(fakepairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop3fakepairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}#
+#
+pop7fakepairsr2 <- vector()#
+#
+for (i in 1:nrow(fakepairs)){#
+	r2vec <- unlist(pop7[grep(fakepairs[i,1],locus),grep(fakepairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop7fakepairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}
+pop1fakepairsr2 <- vector()#
+#
+for (i in 1:nrow(fakepairs)){#
+	r2vec <- unlist(pop1[grep(fakepairs[i,1],locus),grep(fakepairs[i,2],locus)])#
+	r2vec2 <- sapply(r2vec,FUN=no0or9)#
+	pop1fakepairsr2[i] <- mean(r2vec2[!is.na(r2vec2)])#
+}
+pop1fakepairsr2
+allpoppairsfakepairsr2 <- data.frame(pop1pairsr2,pop1fakepairsr2,pop2pairsr2,pop2fakepairsr2,pop3pairsr2,pop3fakepairsr2)
+boxplot(allpoppairsfakepairsr2)
+geocolours
+geocolors
+rep(geocolors,2)
+?rep
+rep(geocolors,times=2)
+?rep
+rep(geocolors,each=2)
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2))
+geocolors <- c("#7570B3","#1B9E77","#D95F02")
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2))
+legend(upperleft,legend=c("West","East","Hawaii"),col=geocolors)
+legend(upperleft,legend=c("West","East","Hawaii"),fill=geocolors)
+legend("upperleft",legend=c("West","East","Hawaii"),fill=geocolors)
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors)
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors,cex=2)
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2))
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors,cex=2)
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors)
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2))
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors)
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2),xlab=c("West Pairs", "West Random","East Pairs", "East Random","Hawaii Pairs", "Hawaii Random"),ylab="r^2 (LD)")
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2),ylab="r^2 (LD)")
+legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors)
+pop1samelocmeans <- aggregate(samelocpop1df,by=list(samelocpop1df$SNPdist),mean)#
+pop1samelocsds <- aggregate(samelocpop1df,by=list(samelocpop1df$SNPdist),sd)#
+pop2samelocmeans <- aggregate(samelocpop2df,by=list(samelocpop2df$SNPdist),mean)#
+pop2samelocsds <- aggregate(samelocpop2df,by=list(samelocpop2df$SNPdist),sd)#
+pop3samelocmeans <- aggregate(samelocpop3df,by=list(samelocpop3df$SNPdist),mean)#
+pop3samelocsds <- aggregate(samelocpo31df,by=list(samelocpop3df$SNPdist),sd)
+pop1samelocmeans <- aggregate(samelocpop1df,by=list(samelocpop1df$SNPdist),mean)#
+pop1samelocsds <- aggregate(samelocpop1df,by=list(samelocpop1df$SNPdist),sd)#
+pop2samelocmeans <- aggregate(samelocpop2df,by=list(samelocpop2df$SNPdist),mean)#
+pop2samelocsds <- aggregate(samelocpop2df,by=list(samelocpop2df$SNPdist),sd)#
+pop3samelocmeans <- aggregate(samelocpop3df,by=list(samelocpop3df$SNPdist),mean)#
+pop3samelocsds <- aggregate(samelocpop3df,by=list(samelocpop3df$SNPdist),sd)
+pop3samelocmeans
+ncol(pop1samelocmeans)
+d <- qplot(samelocpop1df$SNPdist,samelocpop1df$r2val,data=samelocpop1df)
+d
+d + stat_summary(fun.data = "mean_cl_boot",colour="red")
+}
+stat_sum_df <- function(fun, geom="crossbar", ...) {
+stat_summary(fun.data=fun, colour="red", geom=geom, width=0.2, ...)
+}
+d + stat_summary(fun.data = "mean_cl_boot",colour="red",geom="smooth")
+test <- stat_summary(fun.data = "mean_cl_boot",colour="red",geom="smooth")
+test
+test <- stat_summary(data=samelocpop1df)
+test
+d + stat_summary(fun.data = "mean_cl_boot",colour="#7570B3",geom="smooth")
+d + stat_summary(fun.data = "mean_cl_boot",colour="#7570B3",geom="smooth") + theme_bw()
+a <- ggplot() + geom_point(data=samelocpop1df,aes(x=SNPdist,y=r2val), colour='#7570B3',alpha=1/3)
+a + stat_summary(fun.data = "mean_cl_boot",colour="#7570B3",geom="smooth") + theme_bw()
+d + stat_summary(fun.data = "mean_cl_boot",colour="#7570B3",geom="smooth") + theme_bw()
+a <- ggplot() + geom_point(data=samelocpop1df,aes(x=SNPdist,y=r2val), colour='#7570B3',alpha=1/3) + stat_smooth()
+a
+a <- ggplot(data=samelocpop1df,aes(x=SNPdist,y=r2val)
+a + geom_point() + stat_smooth()
+a <- ggplot(data=samelocpop1df,aes(x=SNPdist,y=r2val))
+a + geom_point() + stat_smooth()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(colour='#7570B3') + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "lowess",colour='#7570B3') + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3') + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.5) + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.3) + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.3,n-214) + theme_bw()
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.3,n=214) + theme_bw()
+samelocpop1df$pop = rep(1,nrow(samelocpop1df))
+head(samelocpop1df)
+tail(samelocpop1df)
+samelocpop2df$pop = rep(2,nrow(samelocpop2df))
+samelocpop3df$pop = rep(3,nrow(samelocpop3df))
+head(samelocpop2df)
+head(samelocpop3df)
+samelocallpopdf <- rbind(samelocpop1df,samelocpop2df,samelocpop3df)
+nrow(samelocallpopdf)
+nrow(samelocpop1df) + nrow(samelocpop2df) + nrow(samelocpop3df)
+samelocallpopdf[,1:100]
+samelocallpopdf[1:100,]
+tail(samelocallpopdf)
+all <- ggplot(data=samelocallpopdf,aes(y=r2val,x=SNPdist,colour=factor(pop)))
+all
+all+geom_points()
+all+geom_point()
+samelocpop1df$pop = rep("West",nrow(samelocpop1df))
+samelocpop2df$pop = rep("East",nrow(samelocpop2df))
+samelocpop3df$pop = rep("Hawaii",nrow(samelocpop3df))
+samelocallpopdf <- rbind(samelocpop1df,samelocpop2df,samelocpop3df)
+all <- ggplot(data=samelocallpopdf,aes(y=r2val,x=SNPdist,colour=factor(pop)))
+all + geom_point()
+all + geom_point(colour=geocolors)
+all + geom_point() + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors)
+all + geom_point() + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=1/3) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=1/3) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors,alpha=1) + theme_bw()
+all + geom_point(alpha=1/4) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=1/2) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=1) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth()
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(fill=geocolors,alpha=.3)
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(fill=geocolors,alpha=c(.3,.3,.3))
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(fill=factor(pop))
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(fill=factor(samelocallpopdf$pop))
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(fill=factor(geocolors))
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(aes(fill=factor(pop)))
+samelocpop1df$pop = rep(1,nrow(samelocpop1df))
+samelocpop2df$pop = rep(2,nrow(samelocpop2df))
+samelocpop3df$pop = rep(3,nrow(samelocpop3df))
+samelocallpopdf <- rbind(samelocpop1df,samelocpop2df,samelocpop3df)
+all <- ggplot(data=samelocallpopdf,aes(y=r2val,x=SNPdist,colour=factor(pop)))
+all + geom_point(alpha=.6) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw() + stat_smooth(aes(fill=factor(pop)),)
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop))) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), fill = geocolors) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=3) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + scale+fill_manual(values=geocolors) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + scale_fill_manual(values=geocolors) + theme_bw()
+?scale_color_manual
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=c("West","East","Hawaii"),values=geocolors) + scale_fill_manual(values=geocolors) + theme_bw() + guides(colour = guide_legend())
+geolabs <- c("West","East","Hawaii")
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,labels=geolabs) + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none" + theme_bw()
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw()
+guides(color=guide_legend(override.aes=list(fill=geocolors))
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors))
+all + geom_point(alpha=.6) + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+d + stat_summary(fun.data = "mean_cl_boot",colour="#7570B3",geom="smooth") + theme_bw()
+all + geom_point(alpha=.6) + stat_summary(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + geom_point(alpha=.6) + stat_summary(size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + geom_point(alpha=.6) + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + geom_point(alpha=.6) + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=1,geom="smooth") + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+ggplot() + #
+geom_point(data=samelocpop1df,aes(x=SNPdist,y=r2val)) + ylim(c(0,1)) +#
+ geom_point(data=pop1samelocmeans,aes(x=SNPdist,y=r2val),colour="red",size=3) + geom_errorbar(data=pop1samelocsds, aes(x=SNPdist,y=r2val))#
+#
+plot(pop1samelocmeans$SNPdist,pop1samelocmeans$r2val)
+all + geom_point(alpha=.6) + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=1,geom="smooth") + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=1,geom="smooth") + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + stat_smooth(aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + geom_point(alpha=.6) + stat_smooth(method="loess",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + stat_smooth(method="loess",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=1,geom="smooth") + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.3) + theme_bw()
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","blue"))
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#7570B3"))
+ggplot(samelocpop2df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#1B9E77"))
+ggplot(samelocpop3df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#D95F02"))
+ggplot(samelocpop2df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#1B9E77"))
+ggplot(samelocpop3df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#D95F02"))
+ggplot(samelocpop2df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#1B9E77"))
+plot(snpdistpop1vecnona,samelocpop1vecnona,col=rgb(0,100,0,50,maxColorValue=255), pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col="#7570B3", pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col="#7570B3",alpha=1/3 pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col="#7570B3",alpha=1/3, pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col=rgb( 27, 158, 119,50,maxColorValue=255), pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col=rgb( 27, 158, 119,50,maxColorValue=255), pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value", main="Western Population")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col=rgb( 117, 112, 179,50,maxColorValue=255), pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value", main="Eastern Population")
+plot(snpdistpop1vecnona,samelocpop1vecnona,col=rgb( 217, 95, 2,50,maxColorValue=255), pch=16,ylim=c(0,1),xlab="Distance between SNPs",ylab="r^2 LD value", main="Hawaii Population")
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#7570B3"))
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#7570B3")) + labs(main="Western Population")
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#7570B3")) + labs(title="Western Population")
+ggplot(samelocpop1df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#7570B3")) + labs(title="Western Population",x="SNP Distance",y="r^2 Value")
+ggplot(samelocpop2df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#1B9E77")) + labs(title="Eastern Population",x="SNP Distance",y="r^2 Value")
+ggplot(samelocpop3df,aes(x=SNPdist,y=r2val)) + stat_bin2d(colour="white") + ylim(c(0,1)) + scale_fill_gradientn(colours=c("white","#D95F02")) + labs(title="Hawaii Population",x="SNP Distance",y="r^2 Value")
+a + geom_point(colour='#7570B3',alpha=1/3) + stat_smooth(method= "loess",colour='#7570B3',fill='#7570B3',alpha=.3) + theme_bw()
+all <- ggplot(data=samelocallpopdf,aes(y=r2val,x=SNPdist,colour=factor(pop)))
+all + geom_point(alpha=.6) + stat_smooth(method="loess",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors)))
+all + geom_point(alpha=.6) + stat_smooth(method="loess",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors))) +  + labs(title="All Populations loess smoothed r^2 values",x="SNP Distance",y="r^2 Value")
+all + geom_point(alpha=.6) + stat_smooth(method="loess",aes(fill=factor(pop)), size=2) + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors))) + labs(title="All Populations loess smoothed r^2 values",x="SNP Distance",y="r^2 Value")
+all + geom_point(alpha=.6) + stat_summary(fun.data="mean_cl_boot",aes(fill=factor(pop)), size=1,geom="smooth") + scale_color_manual(name="Pop",labels=geolabs,values=geocolors) + scale_fill_manual(values=geocolors,guide="none") + theme_bw() + guides(color=guide_legend(override.aes=list(fill=geocolors))) + labs(title="All Populations Mean CI r^2 values",x="SNP Distance",y="r^2 Value")
+boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2),ylab="r^2 (LD)")
+pop1ttest <- t.test(allpoppairsfakepairsr2[,1],allpoppairsfakepairsr2[,2])
+pop1ttest
+hist(allpoppairsfakepairsr2[,1])
+hist(log(allpoppairsfakepairsr2[,1]))
+hist(log(allpoppairsfakepairsr2[,2]))
+hist(log(allpoppairsfakepairsr2[,3]))
+hist(log(allpoppairsfakepairsr2[,4]))
+hist(log(allpoppairsfakepairsr2[,5]))
+hist(log(allpoppairsfakepairsr2[,6]))
+pop1ttest <- t.test(log(allpoppairsfakepairsr2[,1]),log(allpoppairsfakepairsr2[,2]))
+pop1ttest
+pop2ttest <- t.test(allpoppairsfakepairsr2[,3],allpoppairsfakepairsr2[,4])
+pop2ttest
+pop3ttest
+pop3ttest <- t.test(allpoppairsfakepairsr2[,5],allpoppairsfakepairsr2[,6])
+pop3ttest
+?pipe
+basicphylo <- read.table("~/Dropbox/HFRad-Tags/HF_m4M3n5_Results/PopMapBasicPhyloNoOutgroups.txt")#
+#
+pops <- c(1,2,3)#
+#
+indpops <- list()#
+numinds <- vector()#
+for (i in 1:length(pops)){#
+	indpops[[i]] <- as.character(basicphylo[basicphylo[,"V2"]==i,1])#
+	numinds[i] <- (length(indpops[[i]]))#
+	}#
+subsamplesize <- 8
+basicphylo
+for (i in 1:10){#
+	newindpops <- list()#
+	newpopdes <- list()#
+	for (i in 1:length(indpops)){#
+		newindpops[[i]] <- sample(indpops[[i]],subsamplesize)#
+		newpopdes[[i]] <- rep(pops[i],subsamplesize)#
+	}#
+	indvec <- unlist(newindpops)#
+	popvec <- unlist(newpopdes)#
+	newpopmap <- data.frame(indvec,popvec)#
+	write.table(newpopmap,file=paste("~/Dropbox/HFRad-Tags/HF_m4M3n5_Results/ReplicatePopmaps_8indivs/PopMapBasicPhyloSameNumInds_",i,".txt",sep=""),quote=F,sep="\t",row.names=F,col.names=F)#
+}
+for (j in 1:10){#
+	newindpops <- list()#
+	newpopdes <- list()#
+	for (i in 1:length(indpops)){#
+		newindpops[[i]] <- sample(indpops[[i]],subsamplesize)#
+		newpopdes[[i]] <- rep(pops[i],subsamplesize)#
+	}#
+	indvec <- unlist(newindpops)#
+	popvec <- unlist(newpopdes)#
+	newpopmap <- data.frame(indvec,popvec)#
+	write.table(newpopmap,file=paste("~/Dropbox/HFRad-Tags/HF_m4M3n5_Results/ReplicatePopmaps_8indivs/PopMapBasicPhyloSameNumInds_",j,".txt",sep=""),quote=F,sep="\t",row.names=F,col.names=F)#
+}

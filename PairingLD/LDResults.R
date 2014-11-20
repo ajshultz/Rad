@@ -326,3 +326,8 @@ allpoppairsfakepairsr2 <- data.frame(pop1pairsr2,pop1fakepairsr2,pop2pairsr2,pop
 
 boxplot(allpoppairsfakepairsr2,col = rep(geocolors,each=2),ylab="r^2 (LD)")
 legend("topleft",legend=c("West","East","Hawaii"),fill=geocolors)
+
+
+pop1ttest <- t.test(log(allpoppairsfakepairsr2[,1]),log(allpoppairsfakepairsr2[,2]))
+pop2ttest <- t.test(allpoppairsfakepairsr2[,3],allpoppairsfakepairsr2[,4])
+pop3ttest <- t.test(allpoppairsfakepairsr2[,5],allpoppairsfakepairsr2[,6])

@@ -119,7 +119,7 @@ def main(argv):
 				catalogpairs[locus]=[samrespairs[sample][0][locus]]
 			else:
 				catalogpairs[locus].append(samrespairs[sample][0][locus])
-		print catalog		
+	
 		print "Sample %d is done!"%sample
 
 	pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))

@@ -10,7 +10,7 @@ blast_records = Bio.Blast.NCBIXML.parse(blast)
 
 
 pos = 134
-#We have to subtract 1 from pos to allow for python subsetting which starts at 0
+
 pos = pos-1
 
 record = next(blast_records)
@@ -35,5 +35,9 @@ for alignment in record.alignments:
 		sbjct_pos = pos - numind
 		sbjct_snppos = hsp.sbjct_start+sbjct_pos
 		print sbjct_snppos
+
+
+
+
 
 blast.close()

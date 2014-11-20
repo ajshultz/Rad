@@ -27,7 +27,7 @@ def main(argv):
 		if opt == "-l":
 			mysqlhost = arg
 		elif opt == "-h":
-			print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -c <path to catalog dictionaries (output from catalog_read_pair.py)> -n <number of samples> -t <table to update in database (default = catalog_index)>"
+			print "catalog_read_pair.py -l <mysql host (default localhost)> -u <mysql user (default root)> -p <mysql password> -s <Stacks database name> -c <path to catalog dictionaries (output from catalog_read_pair.py)> -t <table to update in database (default = catalog_index)>"
 			sys.exit(2)
 		elif opt == "-u":
 			mysqluser = arg
