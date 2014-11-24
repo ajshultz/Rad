@@ -101,6 +101,9 @@ def indreadassign(mysqlhost,mysqluser,mysqlpasswd,stacksdb,samp_id,mincutoff):
 	return [cat_read,overlaploci,snps1,snps2]
 
 
+
+
+##########################################################################################
 """
 This function will access the mysql database for an individual given by samp_id, extract the read information from the unique_tags read id's as to whether the reads are from the first or second read, then use the sequencer position name to match paired reads.  This function will then identify which loci have more than one match, indicating that they likely represent paralogous regions that have incorrectly grouped together.  The function will return a catalog of catalog tag_ids with their pair (if there was only one locus paired), a list of singly paired catalog tag_ids, a list of multiply paired catalog tag_ids, and a list of possible loci for that individual.
 """
@@ -119,7 +122,8 @@ def indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,samp_id,mincutoff):
 	# MyCursor is now "loaded" with the results of the SQL command
 	# AllOut will become a list of all the records selected
 	AllOut = MyCursor.fetchall()   
-	#print AllOut
+	
+	#Create a dictionary with Illumina read IDs as keys and individual tag_id as values.  This is done separately for read 1 and read 2.
 	
 	read1keys = []
 	read1values = []
@@ -138,27 +142,31 @@ def indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,samp_id,mincutoff):
 			read2values.append(AllOut[index][1])
 		else:
 			pass
-
+	
 	read1dict = dict(zip(read1keys,list(read1values)))
 	read2dict = dict(zip(read2keys,read2values))
 
-	#Now we are going to pull data from the tag_index table, which contains the individual tag_id, catalog_id (catalog tag_id), sequencing depth, and snps. We only pull the records for a particular individual.
+	#Pull data from the tag_index table, which contains the individual tag_id, catalog_id (catalog tag_id), sequencing depth, and snps. We only pull the records for a particular individual.
 
 	SQL2 = """SELECT tag_id,catalog_id,depth,snps from tag_index WHERE sample_id=%s;"""%samp_id
 	SQLLen2 = MyCursor.execute(SQL2)
 
 	AllOut2 = MyCursor.fetchall()
-
-	#Get list of all loci for the individual.
+	
+	
+	#Get list of all loci for the individual and create a dictionary of Mysql output for loci that pass the minimum sampling depth filter, with the individual tag_id as the key.
 	indloci=[]
+	mysql_tagindex={}
 	for index in range(SQLLen2):
-		if AllOut2[index][2] >= 10:
+		if AllOut2[index][2] >= mincutoff:
 			indloci.append([AllOut2[index][0]])
+			mysql_tagindex[AllOut2[index][0]]=AllOut2[index]
 		else:
 			pass
 			#print "Locus %d doesn't not meet minumum depth requirments, it is %d"%(index,AllOut2[index][2])
 
-	#Make a dictionary of all possible reads (1 and 2), then turn each pairing into a tuple.
+
+	#Make a dictionary of all possible reads (1 and 2), then turn each pair into a tuple.
 	allreads={}
 	for key in read1dict:
 		allreads.setdefault(key,[]).append(read1dict[key])
@@ -189,23 +197,25 @@ def indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,samp_id,mincutoff):
 	#Get a list of all unique pairs
 	uniquepairs = unique.keys()
 
-	#Create a list of loci that are singly paired, a list of loci that have more than one match, and a catalog of the loci with only one pair.  Note that the tag_id has been translated to the catalog tag_id at this point.
+	#Create a list of loci that have a single match, a list of loci that have more than one match, and a catalog of the loci with only one pair.  Note that the tag_id has been translated to the catalog tag_id at this point for later comparison among individuals.
 	
 	singlepairs = []
 	multiplepairs = []
 	cat_pairindex = {}
 
+	#position 1 and position 2 have to be searched independently.
 	for loc in range(len(indloci)):
 		pos1 = [i for i, v in enumerate(uniquepairs) if v[0]==indloci[loc][0]]
 		pos2 = [i for i, v in enumerate(uniquepairs) if v[1]==indloci[loc][0]]
+		
 		if len(pos1)+len(pos2) == 1:
-			singlepairs.append(AllOut2[indloci[loc][0]-1][1])
+			singlepairs.append(mysql_tagindex[indloci[loc][0]][1])
 			if len(pos1) == 1:
-				cat_pairindex[AllOut2[indloci[loc][0]-1][1]] = AllOut2[uniquepairs[pos1[0]][1]-1][1]
+				cat_pairindex[mysql_tagindex[indloci[loc][0]][1]] = mysql_tagindex[uniquepairs[pos1[0]][1]][1]
 			elif len(pos2) == 1:
-				cat_pairindex[AllOut2[indloci[loc][0]-1][1]] = AllOut2[uniquepairs[pos2[0]][0]-1][1]
+				cat_pairindex[mysql_tagindex[indloci[loc][0]][1]] = mysql_tagindex[uniquepairs[pos2[0]][0]][1]
 			else:
 				print "Something is wrong"
 		elif len(pos1)+len(pos2) > 1:
-			multiplepairs.append(AllOut2[indloci[loc][0]-1][1])	
+			multiplepairs.append(mysql_tagindex[indloci[loc][0]][1])	
 	return(cat_pairindex,singlepairs,multiplepairs,indloci)
