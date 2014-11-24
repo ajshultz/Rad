@@ -11,18 +11,18 @@ from Bio.Blast import NCBIXML
 """
 This script will take in a vcf file output from stacks, a csv hit table output from blasts for the corresponding tags, and a mysql database.  It will access the snp position for the snp ids present in the vcf file from the plink map file, and will translate them to the chromosomal positions from the blast output.  Any tags that blasted to more than one location on the zebra finch genome or did not have any hits will be dropped from the vcf file. 
 
-If singleSnp = T, only one snp per locus will be written.
+If singleSnp = 1, only one snp per locus will be written.
 
 A file with all tags numbers in the VCF file will also be written.
 """
 
 #User input variables
-vcffile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.vcf"
-mapfile= "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/batch_1.plink.map"
-output = "../TestResults/PhyloPop_r.5p14_translated.vcf"
-blastfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/_PhyloPopr.5p14BLAST/HA4EU7HH014-Alignment.xml"
-singleSnp = 0
-tagfile = "/Users/allisonshultz/Dropbox/HFRad-Tags/HFPaired_Reduced/_PhyloPop_r.5p14_allsitesoutput/tag_ids.txt"
+vcffile = "/Users/allisonshultz/Dropbox/ElisaAlbatross/populations_m=30/batch_1.vcf"
+mapfile= "/Users/allisonshultz/Dropbox/ElisaAlbatross/populations_m30_withplink/batch_1.plink.map"
+output = "//Users/allisonshultz/Dropbox/ElisaAlbatross/populations_m=30/Chicken_e-20BlastTranslated_SingleSnp.vcf"
+blastfile = "/Users/allisonshultz/Dropbox/ElisaAlbatross/populations_m=30/ChickenGenome-Alignment.xml"
+singleSnp = 1
+tagfile = "/Users/allisonshultz/Dropbox/ElisaAlbatross/populations_m=30/ChickenGenome_e-20_tag_ids.txt"
 
 #chrtransfile = "/Users/allisonshultz/Dropbox/PythonScripts/RAD/BLAST/ChromsomeNameConvBlast.csv"
 
@@ -97,8 +97,11 @@ def NumBlastAlignments(blast_dict,tag_id):
 #Create a dictionary of the snpid as the key and the tag number _ snp postion on the fragment as the value.  Note that I am finding that the vcf and plink snpids are one off from one another, and am correcting.  I believe this was fixed in a more recent version of stacks, so if this script throws and error with a different vcf file that may be the problem.
 maploci = {}
 for line in map:
-	info = line.strip().split("\t")
-	maploci[info[3]] = info[1]
+	if line[0] == "#":
+		pass
+	else:
+		info = line.strip().split("\t")
+		maploci[info[3]] = info[1]
 
 uniquetag = []
 
@@ -108,7 +111,8 @@ for line in vcfin:
 	else:
 		vcfline = line.strip().split("\t")
 		snpid = vcfline[1]
-		tag_pos = maploci[str(int(snpid) - 1)]#This is where the correction is.
+		#tag_pos = maploci[str(int(snpid) - 1)]#This is where the correction is.
+		tag_pos = maploci[snpid]
 		tag,pos = tag_pos.split("_")
 		if singleSnp == 1:
 			if tag not in uniquetag:
