@@ -29,8 +29,8 @@ def main(argv):
 		elif opt == "-f":
 			fastafile = arg
 		elif opt == "-e":
-			expect = int(arg)
-
+			expect = float(arg)
+				
 	fasta = open(fastafile).read()
 	result_handle = NCBIWWW.qblast("blastn","GPIPE/59729/101/ref_top_level",fasta,expect=expect)
 
@@ -38,6 +38,6 @@ def main(argv):
 	save_file.write(result_handle.read())
 	save_file.close()
 	result_handle.close()
-	
+
 if __name__ == "__main__":
 		main(sys.argv[1:])
