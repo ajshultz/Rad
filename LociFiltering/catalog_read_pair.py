@@ -128,7 +128,7 @@ def main(argv):
 
 	samp_snps.close()
 	overlap12.close()
-	samp_snps.close()
+	samp_pairinginfo.close()
 	mult_indivpairfile.close()
 
 	##########################################################################################
