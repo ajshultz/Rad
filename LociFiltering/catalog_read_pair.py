@@ -4,6 +4,7 @@ import re, sys, os, itertools, sets, getopt        # Load standard modules I oft
 import MySQLdb   # Gives the ability to interact with the mysql database.
 import indiv_read_pair_module
 import pickle
+import operator
 
 
 def main(argv):
@@ -64,18 +65,19 @@ def main(argv):
 	catalog = {}
 	catalogpairs = {}
 
-	mult_indivpairs = []
+	mult_indivpairs = {}
 
 	#Files to write the locus pair results
 	samp_pairinginfo = open("%s/AllSamplePairingInfo.csv"%outputdir,"w")
 	samp_pairinginfo.write("Sample,NumberLoci,SinglyPaired,MultiplyPaired\n")
 
 	mult_indivpairfile = open("%s/MultipleLociWithinInds.csv"%outputdir,"w")
+	mult_indivpairfile.write("locus,num_indivs_multpairs\n")
 
 
 
-	for sample in range(1,numsamples+1):
-	#for sample in (20,21,47,48,53):
+	#for sample in range(1,numsamples+1):
+	for sample in (20,21,47,48,53):
 		#Run the individual functions
 		samres[sample] = indiv_read_pair_module.indreadassign(mysqlhost,mysqluser,mysqlpasswd,stacksdb,sample,mincutoff)
 		samrespairs[sample] = indiv_read_pair_module.indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,sample,mincutoff)
@@ -100,18 +102,18 @@ def main(argv):
 			pass
 		else:
 			for locus in samrespairs[sample][2]:
-				if locus not in mult_indivpairs:
-					mult_indivpairs.append(locus)
-					mult_indivpairfile.write('%s\n'%locus)
+				if locus not in mult_indivpairs.keys():
+					mult_indivpairs[locus] = 1
 				else:
-					pass
+					mult_indivpairs[locus] += 1
 	
+
 		#Create a catalog of read 1 or read 2 designations for catalog tag_ids for all individuals
 		for locus in samres[sample][0]:
 			if locus not in catalog:
-				catalog[locus]=[samres[sample][0][locus]]
+				catalog[int(locus)]=[samres[sample][0][locus]]
 			else:
-				catalog[locus].append(samres[sample][0][locus])
+				catalog[int(locus)].append(samres[sample][0][locus])
 
 		#Create a catalog of all locus pairs for all individuals.  If a locus is found in more than one individual, the pairing is appended to the value for that key (the locus)
 		for locus in samrespairs[sample][0]:
@@ -122,9 +124,21 @@ def main(argv):
 	
 		print "Sample %d is done!"%sample
 
-	pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))
-	pickle.dump(catalogpairs,open("%s/catalogpairsdict.p"%outputdir,"w"))
-	pickle.dump(mult_indivpairs,open("%s/list_multindivpairs.p"%outputdir,"w"))
+	#catalogdict.p is a pickle dump of a catalog dictionary, with the read designation as the value
+	#catalogpairs.p is a pickle dump of a catalog dictionary, with the pairs as the value
+	#mult_indivpairs is a pickle dump of a list of all loci that incorrectly pair in an individual
+	#pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))
+	#pickle.dump(catalogpairs,open("%s/catalogpairsdict.p"%outputdir,"w"))
+	#pickle.dump(mult_indivpairs,open("%s/list_multindivpairs.p"%outputdir,"w"))
+	
+	sorted_mult_indivpairs = sorted(mult_indivpairs.items(), key=operator.itemgetter(0))
+	
+	for loc in sorted_mult_indivpairs:
+		mult_indivpairfile.write('%d,%d\n'%(loc[0],loc[1]))	
+		
+	
+
+
 
 	samp_snps.close()
 	overlap12.close()
@@ -148,7 +162,7 @@ def main(argv):
 			singlecatalog.append(three)
 			print 'Locus %d has both read 1 and 2'%key
 
-	pickle.dump(singlecatalog,open("%s/single_val_catalog.p"%outputdir,"w"))
+	#pickle.dump(singlecatalog,open("%s/single_val_catalog.p"%outputdir,"w"))
 
 	##########################################################################################
 
