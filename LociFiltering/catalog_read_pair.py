@@ -76,8 +76,8 @@ def main(argv):
 
 
 
-	#for sample in range(1,numsamples+1):
-	for sample in (20,21,47,48,53):
+	for sample in range(1,numsamples+1):
+	#for sample in (20,21,47,48,53):
 		#Run the individual functions
 		samres[sample] = indiv_read_pair_module.indreadassign(mysqlhost,mysqluser,mysqlpasswd,stacksdb,sample,mincutoff)
 		samrespairs[sample] = indiv_read_pair_module.indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,sample,mincutoff)
