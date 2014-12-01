@@ -197,7 +197,7 @@ def indlocuspairing(mysqlhost,mysqluser,mysqlpasswd,stacksdb,samp_id,mincutoff):
 	#Get a list of all unique pairs
 	uniquepairs = unique.keys()
 
-	#Create a list of loci that have a single match, a list of loci that have more than one match, and a catalog of the loci with only one pair.  Note that the tag_id has been translated to the catalog tag_id at this point for later comparison among individuals.
+	#Create a list of loci that have a single match, a list of loci that have more than one match, and a catalog of the loci with only one pair.  Note that the tag_id has been translated to the catalog_id at this point for later comparison among individuals.
 	
 	singlepairs = []
 	multiplepairs = []
