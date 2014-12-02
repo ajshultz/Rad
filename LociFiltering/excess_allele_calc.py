@@ -119,7 +119,7 @@ WHERE catalog_id IN (SELECT *
 		sample_sql_len = MyCursor.execute(sample_sql)
 		sample_sql_output = MyCursor.fetchall()
 		
-		print "%s, %d has %d loci"%(str(sample),sample,sample_sql_output[0][0])
+		#print "%s, %d has %d loci"%(str(sample),sample,sample_sql_output[0][0])
 		
 		sample_results.write("%d,%d\n"%(sample,sample_sql_output[0][0]))
 		
