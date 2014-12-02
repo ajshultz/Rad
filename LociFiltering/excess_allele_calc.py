@@ -106,21 +106,21 @@ GROUP BY sample_id,
 	
 	numsamples = SQLLen
 	
-	for samples in range(1,numsamples+1):
+	for sample in range(1,numsamples+1):
 		sample_sql = """SELECT COUNT(DISTINCT catalog_id)
 FROM HFdenovo_rxstacks_m4M3n3_radtags.matches 
 WHERE catalog_id IN (SELECT *
 	FROM (SELECT catalog_id
 		FROM """+stacksdb+""".matches
-		WHERE depth > """+depth+""" AND sample_id = """+sample+"""
+		WHERE depth > """+depth+""" AND sample_id = """+str(sample)+"""
 		GROUP BY sample_id,tag_id
 		HAVING COUNT(tag_id) > 2)
-	AS """+stacksdb+""";"""
-	
+	AS """+stacksdb+""");"""
 		sample_sql_len = MyCursor.execute(sample_sql)
-		sample_sql_ouptut = MyCursor.fetchall()
+		sample_sql_output = MyCursor.fetchall()
 		
-		sample_results.write("%d,%d\n"%(sample,sample_sql_output[0])
+		
+		sample_results.write("%d,%d\n"%(sample,sample_sql_output[0][0]))
 		
 	sample_results.close()	
 	
