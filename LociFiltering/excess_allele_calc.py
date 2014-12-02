@@ -108,7 +108,7 @@ GROUP BY sample_id,
 	
 	for sample in range(1,numsamples+1):
 		sample_sql = """SELECT COUNT(DISTINCT catalog_id)
-FROM HFdenovo_rxstacks_m4M3n3_radtags.matches 
+FROM """+stacksdb+""".matches 
 WHERE catalog_id IN (SELECT *
 	FROM (SELECT catalog_id
 		FROM """+stacksdb+""".matches
@@ -119,6 +119,7 @@ WHERE catalog_id IN (SELECT *
 		sample_sql_len = MyCursor.execute(sample_sql)
 		sample_sql_output = MyCursor.fetchall()
 		
+		print "%s, %d has %d loci"%(str(sample),sample,sample_sql_output[0][0])
 		
 		sample_results.write("%d,%d\n"%(sample,sample_sql_output[0][0]))
 		
