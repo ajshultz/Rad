@@ -55,7 +55,31 @@ points(AllInds$VCFTotalLoci)
 plot(AllInds$VCFAvgPi,type="l",ylab="Pi",main="Average Subpopulation Pi value",xlab="M Parameter")
 points(AllInds$VCFAvgPi)
 
-plot(AllInds$BlastMorethan1hit,col="red",ylim=c(0,900),type="l")
+plot(AllInds$Blastmorethan1hite-40,col="red",ylim=c(0,900),type="l",xlab="M Parameter",ylab="Number of Loci")
 lines(AllInds$VCFTooManyAlleles_m4,add=T)
+legend(x="topright",legend=c("More than 1 Blast e-40 hit","Number of loci with more than 2 alleles"),fill=c("red","black"))
+
+plot(AllInds$BlastMorethan1hit,col="red",ylim=c(0,900),type="l",xlab="M Parameter",ylab="Number of Loci")
+lines(AllInds$VCFTooManyAlleles_m4,add=T)
+legend(x="bottomright",legend=c("More than 1 Blast e-20 hit","Number of loci with more than 2 alleles"),fill=c("red","black"))
+
+plot(AllInds$Blastmorethan1hite-40,col="red",ylim=c(0,900),type="l",xlab="M Parameter",ylab="Number of Loci")
+lines(AllInds$BlastMorethan1hit,add=T)
+
+
+
+layout(matrix(1:3,nrow=3))
+par(cex.main=1,cex.axis=.75,mar=c(0.5,3.5,1.5,1)+0.1)
+
+labels=c("M1n1","M2n2","M3n3","M4n4","M5n5","M6n6","M7n7","M8n8")
+
+plot(AllInds$VCFTotalLoci,type="l",ylab="",main="Number of Loci After Filtering",xlab="",xaxt="n",mgp=c(2.1,1,0))
+points(AllInds$VCFTotalLoci)
+mtext("Number of Loci",side=2,line=2,cex=.75)
+boxplot(per_mult,main="Percentage of Loci with Multiple Pairs",xlab="",xaxt="n",ylab="")
+mtext("Percentage of Loci",side=2,line=2,cex=.75)
+par(cex.main=1,cex.axis=.75,mar=c(2.5,3.5,1.5,1)+0.1)
+boxplot(per_excess,ylim=c(0,0.008),main="Percentage of Loci with More than Two Alleles",xlab="",ylab="",las=0)
+mtext("Percentage of Loci",side=2,line=2,cex=.75)
 
 
