@@ -2,14 +2,14 @@
 
 import sys, getopt
 
-#This is a function to trim all sequences in a fastq file to a specified length.
+#This is a script to trim all sequences in a fastq file to a specified length.
 
 
 def main(argv):
 	try:
 		opts,args = getopt.getopt(argv,'h1:l:o:',)
 	except getopt.GetOptError:
-		print "line_length_trimming.py -1 <Fastq file> -l <length> -o <output>"
+		print "line_length_trimming.py -1 <input Fastq file> -l <length> -o <output Fastq file name>"
 		sys.exit(2)
 			
 	inputfile1 = ''
@@ -23,6 +23,9 @@ def main(argv):
 			length = arg
 		elif opt == "-o":
 			outputfile = arg
+		elif opt == "-h":
+			print "line_length_trimming.py -1 <input Fastq file> -l <length> -o <output Fastq file name>"
+			sys.exit()
 		
 
 	fastq = open(inputfile1,"r")
@@ -45,8 +48,22 @@ def main(argv):
 					print "There is a sequence shorter than the length given, it is only %d bp long"%length1
 				else:
 					newline = newline[:-diff]
-					out.write(newline + '\n') 
 					out.write("%s\n"%(newline))
+		elif linenum % 4 == 3:
+			out.write(line)
+		elif linenum % 4 == 0:
+			newline = line.strip('\n')
+			length1 = len(newline)
+			if length1 == int(length):
+				out.write("%s\n"%(newline))
+			else:
+				diff = length1-int(length)
+				if diff <= 0:
+					print "There is a sequence shorter than the length given, it is only %d bp long"%length1
+				else:
+					newline = newline[:-diff]
+					out.write("%s\n"%(newline))
+			
 
 	out.close()
 	fastq.close()
