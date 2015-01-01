@@ -127,9 +127,9 @@ def main(argv):
 	#catalogdict.p is a pickle dump of a catalog dictionary, with the read designation as the value
 	#catalogpairs.p is a pickle dump of a catalog dictionary, with the pairs as the value
 	#mult_indivpairs is a pickle dump of a list of all loci that incorrectly pair in an individual
-	#pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))
-	#pickle.dump(catalogpairs,open("%s/catalogpairsdict.p"%outputdir,"w"))
-	#pickle.dump(mult_indivpairs,open("%s/list_multindivpairs.p"%outputdir,"w"))
+	pickle.dump(catalog,open("%s/catalogdict.p"%outputdir,"w"))
+	pickle.dump(catalogpairs,open("%s/catalogpairsdict.p"%outputdir,"w"))
+	pickle.dump(mult_indivpairs,open("%s/list_multindivpairs.p"%outputdir,"w"))
 	
 	sorted_mult_indivpairs = sorted(mult_indivpairs.items(), key=operator.itemgetter(0))
 	
@@ -162,7 +162,7 @@ def main(argv):
 			singlecatalog.append(three)
 			print 'Locus %d has both read 1 and 2'%key
 
-	#pickle.dump(singlecatalog,open("%s/single_val_catalog.p"%outputdir,"w"))
+	pickle.dump(singlecatalog,open("%s/single_val_catalog.p"%outputdir,"w"))
 
 	##########################################################################################
 
