@@ -44,7 +44,8 @@ def main(argv):
 
 	for line in within_ind:
 		line = line.strip()
-		withinlist.append(line)
+		line = line.split(",")
+		withinlist.append(line[0])
 	
 	acrosslist = []
 
