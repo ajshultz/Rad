@@ -11,7 +11,7 @@ from Bio.Blast import NCBIXML
 """
 This script will take in a vcf file output from stacks, a csv hit table output from blasts for the corresponding tags, and a mysql database.  It will access the snp position for the snp ids present in the vcf file from the plink map file, and will translate them to the chromosomal positions from the blast output.  Any tags that blasted to more than one location on the zebra finch genome or did not have any hits will be dropped from the vcf file. 
 
-The input: -b <path to blast xml file> -o <path to output file (e.g. ./output.vcf)> -m <path to plink map file> -t <path to desired tag id output file (e.g. ./output.tag_id.txt)> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>
+The input: -v <path to vcf file to be translated> -b <path to blast xml file> -o <path to output file (e.g. ./output.vcf)> -m <path to plink map file> -t <path to desired tag id output file (e.g. ./output.tag_id.txt)> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>
 
 If singleSnp = 1, only one snp per locus will be written.
 
@@ -21,9 +21,9 @@ A file with all tags numbers in the VCF file will also be written.
 
 def main(argv):
 	try:
-		opts,args = getopt.getopt(argv,'hb:o:m:t:s:',)
+		opts,args = getopt.getopt(argv,'hv:b:o:m:t:s:',)
 	except getopt.GetOptError:
-		print "vcf_blast_location_translator.py -b <path to blast xml file> -o <path to output file (e.g. ./output.vcf)> -m <path to plink map file> -t <path to desired tag id output file (e.g. ./output.tag_id.txt)> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>"
+		print "vcf_blast_location_translator.py -v <path to vcf file to be translated> -b <path to blast xml file> -o <path to output file (e.g. ./output.vcf)> -m <path to plink map file> -t <path to desired tag id output file (e.g. ./output.tag_id.txt)> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>"
 		sys.exit(2)
 			
 	vcffile = ''
@@ -36,14 +36,16 @@ def main(argv):
 
 	for opt, arg in opts:
 		if opt == "-h":
-			print "vcf_blast_location_translator.py -b <path to blast xml file> -o <path to output file> -m <path to plink map file> -t <path to desired tag id output file> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>"
+			print "vcf_blast_location_translator.py -v <path to vcf file to be translated> -b <path to blast xml file> -o <path to output file> -m <path to plink map file> -t <path to desired tag id output file> -s <if 1, only a single snp per locus will be written - if 0 (default) all loci will be translated>"
 			sys.exit(2)
+		elif opt == "-v":
+			vcffile = arg
 		elif opt == "-b":
 			blastfile = arg
 		elif opt == "-m":
 			mapfile = arg
 		elif opt == "-o":
-			outputfile = arg
+			output = arg
 		elif opt == "-t":
 			tagfile = arg
 		elif opt == "-s":
@@ -120,7 +122,7 @@ def main(argv):
 	#print NumBlastAlignments(blast_dict,9665)
 
 
-	#Create a dictionary of the snpid as the key and the tag number _ snp postion on the fragment as the value.  Note that I am finding that the vcf and plink snpids are one off from one another, and am correcting.  I believe this was fixed in a more recent version of stacks, so if this script throws and error with a different vcf file that may be the problem.
+	#Create a dictionary of the snpid as the key and the tag number _ snp postion on the fragment as the value.  Note that I am finding that the vcf and plink snpids are one off from one another, and am correcting.  I believe this was fixed in a more recent version of stacks, but appears to be off again... so if this script throws an error with a different vcf file that may be the problem.
 	maploci = {}
 	for line in map:
 		if line[0] == "#":
@@ -137,8 +139,8 @@ def main(argv):
 		else:
 			vcfline = line.strip().split("\t")
 			snpid = vcfline[1]
-			#tag_pos = maploci[str(int(snpid) - 1)]#This is where the correction is.
-			tag_pos = maploci[snpid]
+			tag_pos = maploci[str(int(snpid) - 1)]#This is where the correction is.
+			#tag_pos = maploci[snpid]
 			tag,pos = tag_pos.split("_")
 			if singleSnp == 1:
 				if tag not in uniquetag:
