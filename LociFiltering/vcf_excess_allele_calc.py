@@ -106,6 +106,7 @@ WHERE catalog_id IN (SELECT *
 		else:
 			pass
 		
+	print "All Done!"
 	
 	morethan2.close()
 	vcf.close()
