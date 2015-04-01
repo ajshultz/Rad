@@ -49,7 +49,7 @@ def main(argv):
 		elif opt == "-t":
 			tagfile = arg
 		elif opt == "-s":
-			singleSnp = arg
+			singleSnp = int(arg)
 
 
 	#chrtransfile = "/Users/allisonshultz/Dropbox/PythonScripts/RAD/BLAST/ChromsomeNameConvBlast.csv"
