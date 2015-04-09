@@ -14,10 +14,10 @@ def main(argv):
 	try:
 		opts,args = getopt.getopt(argv,'ho:m:P:M:f:O:I:',)
 	except getopt.GetOptError:
-		print "dadi_format_converter.py -o <path to output directory (default .)> -m <Popmap file> -P <Plink ped file> -M <Plink map file> -f <Fasta file of consensus sequences for each locus> -O <outgroup> -I <Ingroup comma separated list>"
+		print "dadi_format_converter.py -o <path to output file (default ./dadi_format.txt)> -m <Popmap file> -P <Plink ped file> -M <Plink map file> -f <Fasta file of consensus sequences for each locus> -O <outgroup> -I <Ingroup comma separated list>"
 		sys.exit(2)
 			
-	output = '.'
+	output = './dadi_format.txt'
 	plinkped = ''
 	plinkmap = ''
 	popmap = ''
@@ -27,7 +27,7 @@ def main(argv):
 
 	for opt, arg in opts:
 		if opt == "-h":
-			print "dadi_format_converter.py -o <path to output directory (default .)> -m <Popmap file> -P <Plink ped file> -M <Plink map file> -f <Fasta file of consensus sequences for each locus> -O <outgroup> -I <Ingroup comma separated list>"
+			print "dadi_format_converter.py -o <path to output file (default ./dadi_format.txt)> -m <Popmap file> -P <Plink ped file> -M <Plink map file> -f <Fasta file of consensus sequences for each locus> -O <outgroup> -I <Ingroup comma separated list>"
 			sys.exit(2)
 		elif opt == "-o":
 			output = arg
@@ -272,20 +272,24 @@ def main(argv):
 		
 	#Write results to dadi input file, and exclude any loci that were heterozygous in the outgroup.
 	
+	out_present = 0
+	out_missing = 0
+	
 	for loc in range(0,len(locusid)):
 		if keep[loc] == "TRUE":
 			line = [in_ref[locusid[loc]],out_ref[locusid[loc]],allele_vars[loc][0]]+allele1_dict[locusid[loc]]+[allele_vars[loc][1]]+allele2_dict[locusid[loc]]+[catid[loc],str(tagpos_corrected[loc])]
 			line = "\t".join(line)
 			line = line + "\n"
 			dadi.write(line)
+			if "-" in out_ref[locusid[loc]]:
+				out_missing += 1
+			else:
+				out_present += 1
+			
 		else:
 			pass
-	
 
-			
-			
-
-
+	print "There are %d loci with outgrouop information, and %d loci without outgroup information"%(out_present,out_missing)
 
 	dadi.close()
 	ped.close()
