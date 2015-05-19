@@ -163,7 +163,7 @@ def main(argv):
 	ingroup_str = "\t".join(ingroups)
 	
 	dadi = open(output,"w")
-	header = ("ingroup",outgroup,"Allele1",ingroup_str,"Allele2",ingroup_str,"tag_id","position","\n")
+	header = ("ingroup",outgroup,"Allele1",ingroup_str,"Allele2",ingroup_str,"tag_id","position\n")
 	header = "\t".join(header)
 
 	dadi.write(header)
