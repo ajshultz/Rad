@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import re, sys, os, itertools, sets, getopt        # Load standard modules I often use
-import MySQLdb   # Gives the ability to interact with the mysql database.
+#import MySQLdb   # Gives the ability to interact with the mysql database.
 import pickle
 import vcf
 import Bio
@@ -161,7 +161,7 @@ def main(argv):
 							vcfline[0] = str(chr)
 							vcfline[1] = str(newpos)
 							vcfline[2] = "%s_%s"%(tag,pos)
-							print vcfline[2]
+							#print vcfline[2]
 							newvcfline = "\t".join(vcfline)
 							vcfout.write("%s\n"%(newvcfline))
 
