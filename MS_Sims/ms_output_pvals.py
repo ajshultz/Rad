@@ -26,6 +26,15 @@ def main(argv):
 			output = arg
 			
 
+	class MSRecord(object):
+	
+		def __init__(self,
+	
+	
+	
+	
+	
 	ms_out = open(input,"r")
 	
-	
+	for line in ms_out:
+		if line[0] == "m"
